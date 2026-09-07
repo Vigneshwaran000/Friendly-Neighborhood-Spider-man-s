@@ -1,0 +1,2035 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About — Friendly Neighborhood Spider-Mans</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* =============================================
+   ROOT & RESET
+============================================= */
+      :root {
+        --red: #e8112d;
+        --red-dark: #a30d1f;
+        --blue: #1a2fcc;
+        --blue-glow: #2244ff;
+        --gold: #ffd700;
+        --bg: #080810;
+        --bg2: #0d0d1a;
+        --bg3: #111126;
+        --glass: rgba(255, 255, 255, 0.06);
+        --border: rgba(255, 255, 255, 0.08);
+        --text: #e8e8f0;
+        --muted: #8888aa;
+        --font-display: "Bebas Neue", cursive;
+        --font-body: "Rajdhani", sans-serif;
+        --font-ui: "Exo 2", sans-serif;
+        --ease: cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .light-mode {
+        --bg: #f0f0f8;
+        --bg2: #e4e4f0;
+        --bg3: #d8d8ec;
+        --glass: rgba(0, 0, 0, 0.05);
+        --border: rgba(0, 0, 0, 0.1);
+        --text: #111128;
+        --muted: #444466;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-body);
+        font-size: 16px;
+        overflow-x: hidden;
+        transition:
+          background 0.4s,
+          color 0.4s;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      button {
+        cursor: pointer;
+        border: none;
+        background: none;
+        font-family: inherit;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+      }
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--red-dark);
+        border-radius: 3px;
+      }
+      :focus-visible {
+        outline: 2px solid var(--red);
+        outline-offset: 3px;
+        border-radius: 4px;
+      }
+
+      /* =============================================
+   SCROLL PROGRESS
+============================================= */
+      #scrollProgress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 2px;
+        width: 0%;
+        background: linear-gradient(90deg, var(--red), var(--blue-glow));
+        z-index: 9998;
+        pointer-events: none;
+      }
+
+      /* =============================================
+   NAV
+============================================= */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        padding: 0.85rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition:
+          background 0.3s,
+          box-shadow 0.3s;
+      }
+      nav.scrolled {
+        background: rgba(8, 8, 16, 0.92);
+        backdrop-filter: blur(20px);
+        box-shadow: 0 2px 30px rgba(0, 0, 0, 0.5);
+      }
+      .nav-logo {
+        font-family: var(--font-display);
+        font-size: 1.6rem;
+        letter-spacing: 0.08em;
+        background: linear-gradient(135deg, var(--red), var(--blue-glow));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .nav-links {
+        display: flex;
+        gap: 1.8rem;
+        list-style: none;
+        font-family: var(--font-ui);
+        font-weight: 600;
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .nav-links a {
+        color: var(--muted);
+        transition: color 0.25s;
+      }
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: #fff;
+      }
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+      #themeToggle {
+        width: 44px;
+        height: 24px;
+        background: var(--glass);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        position: relative;
+        transition: background 0.3s;
+      }
+      #themeToggle::before {
+        content: "🌙";
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--bg3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.65rem;
+        line-height: 20px;
+        text-align: center;
+        transition: transform 0.3s;
+      }
+      .light-mode #themeToggle::before {
+        content: "☀️";
+        transform: translateX(20px);
+      }
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        padding: 4px;
+      }
+      .hamburger span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: var(--text);
+        border-radius: 2px;
+        transition: 0.3s;
+      }
+      @media (max-width: 900px) {
+        .hamburger {
+          display: flex;
+        }
+        .nav-links {
+          position: fixed;
+          top: 60px;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(8, 8, 16, 0.98);
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 1.4rem;
+          transform: translateY(-120%);
+          transition: transform 0.35s;
+          backdrop-filter: blur(18px);
+          z-index: 99;
+        }
+        .nav-links.open {
+          transform: translateY(0);
+        }
+      }
+
+      /* =============================================
+   SHARED
+============================================= */
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+      section {
+        padding: 5rem 0;
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(36px);
+        transition:
+          opacity 0.7s var(--ease),
+          transform 0.7s var(--ease);
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .reveal-left {
+        opacity: 0;
+        transform: translateX(-36px);
+        transition:
+          opacity 0.7s var(--ease),
+          transform 0.7s var(--ease);
+      }
+      .reveal-left.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .reveal-right {
+        opacity: 0;
+        transform: translateX(36px);
+        transition:
+          opacity 0.7s var(--ease),
+          transform 0.7s var(--ease);
+      }
+      .reveal-right.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .section-eyebrow {
+        font-family: var(--font-ui);
+        font-size: 0.72rem;
+        letter-spacing: 0.45em;
+        text-transform: uppercase;
+        color: var(--red);
+        margin-bottom: 0.6rem;
+      }
+      .section-title {
+        font-family: var(--font-display);
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        line-height: 1;
+        letter-spacing: 0.03em;
+        margin-bottom: 1rem;
+      }
+      .section-title span {
+        color: var(--red);
+      }
+      .divider {
+        width: 55px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--red), var(--blue-glow));
+        border-radius: 2px;
+        margin: 1rem 0 1.5rem;
+      }
+      .glass-card {
+        background: var(--glass);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        backdrop-filter: blur(8px);
+      }
+
+      /* =============================================
+   HERO — ABOUT PAGE
+============================================= */
+      #about-hero {
+        min-height: 100vh;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+      .about-hero-bg {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse 70% 90% at 80% 40%,
+            rgba(26, 47, 204, 0.3),
+            transparent
+          ),
+          radial-gradient(
+            ellipse 60% 70% at 20% 60%,
+            rgba(232, 17, 45, 0.2),
+            transparent
+          ),
+          var(--bg);
+      }
+      /* Animated web rings */
+      .about-web-rings {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+      }
+      .ring {
+        position: absolute;
+        border-radius: 50%;
+        border: 1px solid rgba(232, 17, 45, 0.08);
+        animation: ringExpand 6s ease-out infinite;
+      }
+      .ring:nth-child(1) {
+        width: 200px;
+        height: 200px;
+        animation-delay: 0s;
+      }
+      .ring:nth-child(2) {
+        width: 400px;
+        height: 400px;
+        animation-delay: 1.5s;
+      }
+      .ring:nth-child(3) {
+        width: 600px;
+        height: 600px;
+        animation-delay: 3s;
+      }
+      .ring:nth-child(4) {
+        width: 800px;
+        height: 800px;
+        animation-delay: 4.5s;
+      }
+      .ring:nth-child(5) {
+        width: 1000px;
+        height: 1000px;
+        animation-delay: 6s;
+      }
+      @keyframes ringExpand {
+        0% {
+          transform: scale(0.6);
+          opacity: 0.5;
+        }
+        100% {
+          transform: scale(1.2);
+          opacity: 0;
+        }
+      }
+      /* Spider web SVG bg */
+      .about-web-svg {
+        position: absolute;
+        inset: 0;
+        opacity: 0.04;
+        background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23e8112d' stroke-width='.5' fill='none'%3E%3Ccircle cx='50' cy='50' r='45'/%3E%3Ccircle cx='50' cy='50' r='30'/%3E%3Ccircle cx='50' cy='50' r='15'/%3E%3Cline x1='50' y1='5' x2='50' y2='95'/%3E%3Cline x1='5' y1='50' x2='95' y2='50'/%3E%3Cline x1='15' y1='15' x2='85' y2='85'/%3E%3Cline x1='85' y1='15' x2='15' y2='85'/%3E%3C/g%3E%3C/svg%3E");
+        background-size: 160px 160px;
+        animation: webBgDrift 25s linear infinite;
+      }
+      @keyframes webBgDrift {
+        from {
+          background-position: 0 0;
+        }
+        to {
+          background-position: 160px 160px;
+        }
+      }
+      .about-hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        padding: 0 1.5rem;
+        max-width: 800px;
+      }
+      .about-hero-label {
+        font-family: var(--font-ui);
+        font-size: 0.75rem;
+        letter-spacing: 0.5em;
+        text-transform: uppercase;
+        color: var(--red);
+        margin-bottom: 1.5rem;
+        animation: fadeUp 0.8s 0.3s both;
+      }
+      .about-hero-title {
+        font-family: var(--font-display);
+        font-size: clamp(3rem, 10vw, 8rem);
+        line-height: 0.9;
+        letter-spacing: 0.02em;
+        background: linear-gradient(
+          135deg,
+          #fff 30%,
+          var(--red) 60%,
+          var(--blue-glow) 90%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: fadeUp 0.9s 0.45s both;
+        margin-bottom: 1.2rem;
+      }
+      .about-hero-sub {
+        font-family: var(--font-ui);
+        font-size: clamp(0.95rem, 2vw, 1.25rem);
+        color: var(--muted);
+        font-weight: 300;
+        line-height: 1.7;
+        max-width: 600px;
+        margin: 0 auto 2.5rem;
+        animation: fadeUp 0.9s 0.6s both;
+      }
+      .about-hero-badges {
+        display: flex;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        animation: fadeUp 0.9s 0.75s both;
+      }
+      .hero-badge {
+        font-family: var(--font-ui);
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 0.35rem 0.9rem;
+        border-radius: 20px;
+      }
+      .badge-red {
+        background: rgba(232, 17, 45, 0.15);
+        border: 1px solid rgba(232, 17, 45, 0.4);
+        color: var(--red);
+      }
+      .badge-blue {
+        background: rgba(34, 68, 255, 0.15);
+        border: 1px solid rgba(34, 68, 255, 0.4);
+        color: var(--blue-glow);
+      }
+      .badge-gold {
+        background: rgba(255, 215, 0, 0.12);
+        border: 1px solid rgba(255, 215, 0, 0.35);
+        color: var(--gold);
+      }
+      .about-scroll-hint {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: var(--font-ui);
+        font-size: 0.68rem;
+        letter-spacing: 0.2em;
+        color: var(--muted);
+        text-transform: uppercase;
+        animation: fadeUp 1s 1s both;
+      }
+      .scroll-line-about {
+        width: 1px;
+        height: 36px;
+        background: linear-gradient(to bottom, var(--red), transparent);
+        animation: scrollPulse 1.6s ease-in-out infinite;
+      }
+      @keyframes scrollPulse {
+        0%,
+        100% {
+          opacity: 0.4;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(28px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* =============================================
+   ABOUT WEBSITE SECTION
+============================================= */
+      #about-site {
+        background: var(--bg2);
+      }
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+      }
+      .about-text p {
+        font-family: var(--font-ui);
+        font-size: 1rem;
+        color: var(--muted);
+        line-height: 1.8;
+        margin-bottom: 1.2rem;
+      }
+      .about-text p strong {
+        color: var(--text);
+      }
+      .about-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+      .about-stat {
+        background: var(--glass);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 1.2rem 1rem;
+        text-align: center;
+        transition:
+          border-color 0.25s,
+          transform 0.25s;
+      }
+      .about-stat:hover {
+        border-color: rgba(232, 17, 45, 0.4);
+        transform: translateY(-4px);
+      }
+      .about-stat-num {
+        font-family: var(--font-display);
+        font-size: 2.2rem;
+        color: var(--red);
+        line-height: 1;
+      }
+      .about-stat-lbl {
+        font-family: var(--font-ui);
+        font-size: 0.68rem;
+        color: var(--muted);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-top: 0.3rem;
+      }
+      .about-visual {
+        position: relative;
+      }
+      .about-spider-symbol {
+        width: 100%;
+        max-width: 380px;
+        margin: 0 auto;
+        aspect-ratio: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+      .spider-glow-ring {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 1px solid rgba(232, 17, 45, 0.15);
+        animation: pulseRing 3s ease-in-out infinite;
+      }
+      .spider-glow-ring:nth-child(2) {
+        width: 80%;
+        height: 80%;
+        animation-delay: 0.8s;
+        border-color: rgba(34, 68, 255, 0.15);
+      }
+      .spider-glow-ring:nth-child(3) {
+        width: 60%;
+        height: 60%;
+        animation-delay: 1.6s;
+      }
+      @keyframes pulseRing {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.5;
+        }
+        50% {
+          transform: scale(1.04);
+          opacity: 1;
+        }
+      }
+      .spider-icon-large {
+        font-size: 8rem;
+        filter: drop-shadow(0 0 40px rgba(232, 17, 45, 0.5));
+        animation: iconFloat 4s ease-in-out infinite;
+      }
+      @keyframes iconFloat {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-12px);
+        }
+      }
+      @media (max-width: 800px) {
+        .about-grid {
+          grid-template-columns: 1fr;
+        }
+        .about-visual {
+          display: none;
+        }
+      }
+
+      /* =============================================
+   SPIDER-MAN LEGACY
+============================================= */
+      #legacy {
+        background: var(--bg);
+      }
+      .legacy-timeline {
+        position: relative;
+        max-width: 800px;
+        margin: 0 auto;
+        padding-left: 2.5rem;
+      }
+      .legacy-timeline::before {
+        content: "";
+        position: absolute;
+        left: 0.9rem;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(
+          to bottom,
+          var(--red),
+          var(--blue-glow),
+          var(--red)
+        );
+      }
+      .legacy-item {
+        position: relative;
+        margin-bottom: 2.5rem;
+        padding: 1.4rem 1.8rem;
+        background: var(--glass);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        backdrop-filter: blur(6px);
+        transition:
+          border-color 0.3s,
+          box-shadow 0.3s,
+          transform 0.3s;
+      }
+      .legacy-item:hover {
+        border-color: rgba(232, 17, 45, 0.35);
+        box-shadow: 0 0 30px rgba(232, 17, 45, 0.12);
+        transform: translateX(4px);
+      }
+      .legacy-item::before {
+        content: "";
+        position: absolute;
+        left: -1.83rem;
+        top: 1.5rem;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--red);
+        box-shadow: 0 0 14px var(--red);
+      }
+      .legacy-era {
+        font-family: var(--font-display);
+        font-size: 1.8rem;
+        color: var(--red);
+        line-height: 1;
+        margin-bottom: 0.3rem;
+      }
+      .legacy-title {
+        font-family: var(--font-display);
+        font-size: 1.4rem;
+        margin-bottom: 0.5rem;
+      }
+      .legacy-desc {
+        font-family: var(--font-ui);
+        font-size: 0.92rem;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+      .legacy-tag {
+        display: inline-block;
+        margin-top: 0.6rem;
+        font-family: var(--font-ui);
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 0.2rem 0.65rem;
+        border-radius: 20px;
+        background: rgba(34, 68, 255, 0.2);
+        color: var(--blue-glow);
+        border: 1px solid rgba(34, 68, 255, 0.3);
+      }
+
+      /* =============================================
+   MULTIVERSE CONCEPT
+============================================= */
+      #multiverse-concept {
+        background: var(--bg2);
+      }
+      .multiverse-intro {
+        font-family: var(--font-ui);
+        font-size: 1.05rem;
+        color: var(--muted);
+        line-height: 1.8;
+        max-width: 660px;
+        margin-bottom: 3rem;
+      }
+      .universe-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 1.4rem;
+      }
+      .universe-card {
+        background: var(--glass);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 1.6rem;
+        transition:
+          transform 0.3s,
+          border-color 0.3s,
+          box-shadow 0.3s;
+      }
+      .universe-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(232, 17, 45, 0.35);
+        box-shadow: 0 12px 40px rgba(232, 17, 45, 0.15);
+      }
+      .universe-card-earth {
+        font-family: var(--font-display);
+        font-size: 1.6rem;
+        color: var(--red);
+        margin-bottom: 0.3rem;
+      }
+      .universe-card-hero {
+        font-family: var(--font-ui);
+        font-size: 0.75rem;
+        color: var(--blue-glow);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        margin-bottom: 0.8rem;
+      }
+      .universe-card-desc {
+        font-family: var(--font-ui);
+        font-size: 0.88rem;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      /* =============================================
+   CHARACTERS OVERVIEW
+============================================= */
+      #chars-overview {
+        background: var(--bg3);
+      }
+      .chars-strip {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1.2rem;
+        width: 100%;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      .chars-strip::-webkit-scrollbar {
+        height: 4px;
+      }
+      .chars-strip::-webkit-scrollbar-thumb {
+        background: var(--red-dark);
+        border-radius: 2px;
+      }
+      .char-chip {
+        width: 105%;
+        background: var(--glass);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        overflow: hidden;
+        text-align: center;
+        padding-bottom: 1.2rem;
+        transition:
+          transform 0.3s,
+          border-color 0.3s;
+        cursor: default;
+      }
+      .char-chip:hover {
+        transform: translateY(-8px);
+        border-color: rgba(232, 17, 45, 0.4);
+      }
+      .char-chip-img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        object-position: top;
+        transition: transform 0.4s;
+      }
+      .char-chip:hover .char-chip-img {
+        transform: scale(1.06);
+      }
+      .char-chip-name {
+        font-family: var(--font-display);
+        font-size: 1.2rem;
+        letter-spacing: 0.04em;
+        margin: 0.8rem 0.6rem 0.2rem;
+      }
+      .char-chip-actor {
+        font-family: var(--font-ui);
+        font-size: 0.68rem;
+        color: var(--red);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .char-chip-earth {
+        font-family: var(--font-ui);
+        font-size: 0.6rem;
+        color: var(--muted);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-top: 0.3rem;
+      }
+
+      /* =============================================
+   FEATURES SECTION
+============================================= */
+      #features {
+        background: var(--bg);
+      }
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.4rem;
+      }
+      .feature-card {
+        background: var(--glass);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 1.8rem;
+        transition:
+          transform 0.3s,
+          border-color 0.3s,
+          box-shadow 0.3s;
+      }
+      .feature-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(232, 17, 45, 0.3);
+        box-shadow: 0 12px 40px rgba(232, 17, 45, 0.12);
+      }
+      .feature-icon {
+        font-size: 2.4rem;
+        margin-bottom: 1rem;
+      }
+      .feature-name {
+        font-family: var(--font-display);
+        font-size: 1.4rem;
+        letter-spacing: 0.04em;
+        margin-bottom: 0.6rem;
+      }
+      .feature-desc {
+        font-family: var(--font-ui);
+        font-size: 0.88rem;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+      .feature-tag {
+        display: inline-block;
+        margin-top: 0.8rem;
+        font-family: var(--font-ui);
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 0.2rem 0.6rem;
+        border-radius: 20px;
+        background: rgba(232, 17, 45, 0.12);
+        border: 1px solid rgba(232, 17, 45, 0.25);
+        color: var(--red);
+      }
+
+      /* =============================================
+   TECHNOLOGY SECTION
+============================================= */
+      #tech-section {
+        background: var(--bg2);
+      }
+      .tech-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 1rem;
+        max-width: 900px;
+      }
+      .tech-card {
+        background: var(--glass);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 1.4rem 1rem;
+        text-align: center;
+        transition:
+          transform 0.25s,
+          border-color 0.25s;
+      }
+      .tech-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(34, 68, 255, 0.45);
+      }
+      .tech-icon {
+        width: 78px;
+        height: 78px;
+        margin: 0 auto 1rem;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.08);
+        border: 2px solid rgba(255, 255, 255, 0.12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+        box-shadow:
+          0 0 20px rgba(34, 68, 255, 0.18),
+          inset 0 0 15px rgba(255, 255, 255, 0.04);
+        transition:
+          transform 0.3s ease,
+          border-color 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .tech-icon img {
+        width: 62%;
+        height: 62%;
+        object-fit: contain;
+        filter: drop-shadow(0 0 10px rgba(34, 68, 255, 0.35));
+        transition: transform 0.3s ease;
+      }
+
+      .tech-card:hover .tech-icon {
+        transform: scale(1.08);
+        border-color: rgba(34, 68, 255, 0.55);
+        box-shadow:
+          0 0 30px rgba(34, 68, 255, 0.3),
+          inset 0 0 18px rgba(255, 255, 255, 0.05);
+      }
+
+      .tech-card:hover .tech-icon img {
+        transform: scale(1.08);
+      }
+      .tech-name {
+        font-family: var(--font-display);
+        font-size: 1.2rem;
+        letter-spacing: 0.04em;
+        margin-bottom: 0.4rem;
+      }
+      .tech-desc {
+        font-family: var(--font-ui);
+        font-size: 0.78rem;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      /* =============================================
+   CREATOR / PROJECT SECTION
+============================================= */
+      #creator {
+        background: var(--bg3);
+      }
+      .creator-wrap {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: start;
+        max-width: 900px;
+      }
+      @media (max-width: 700px) {
+        .creator-wrap {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+      }
+      .creator-card {
+        background: var(--glass);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 2rem;
+        text-align: center;
+      }
+      .creator-avatar {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--red-dark), var(--blue));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        margin: 0 auto 1.2rem;
+      }
+      .creator-name {
+        font-family: var(--font-display);
+        font-size: 2rem;
+        letter-spacing: 0.04em;
+        margin-bottom: 0.3rem;
+      }
+      .creator-role {
+        font-family: var(--font-ui);
+        font-size: 0.75rem;
+        color: var(--red);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+      }
+      .creator-bio {
+        font-family: var(--font-ui);
+        font-size: 0.9rem;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+      .disclaimer-card {
+        background: var(--glass);
+        border: 1px solid rgba(255, 215, 0, 0.2);
+        border-radius: 20px;
+        padding: 2rem;
+      }
+      .disclaimer-title {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        color: var(--gold);
+        margin-bottom: 0.8rem;
+      }
+      .disclaimer-text {
+        font-family: var(--font-ui);
+        font-size: 0.9rem;
+        color: var(--muted);
+        line-height: 1.7;
+        margin-bottom: 1rem;
+      }
+      .disclaimer-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1.2rem;
+      }
+      .disclaimer-tag {
+        font-family: var(--font-ui);
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 0.22rem 0.65rem;
+        border-radius: 20px;
+        background: rgba(255, 215, 0, 0.1);
+        border: 1px solid rgba(255, 215, 0, 0.25);
+        color: var(--gold);
+      }
+
+      /* =============================================
+   CTA — BACK TO MULTIVERSE
+============================================= */
+      #cta {
+        background: var(--bg);
+        padding: 6rem 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .cta-bg {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse 80% 80% at 50% 50%,
+          rgba(232, 17, 45, 0.08),
+          transparent
+        );
+        pointer-events: none;
+      }
+      .cta-title {
+        font-family: var(--font-display);
+        font-size: clamp(3rem, 8vw, 7rem);
+        line-height: 0.9;
+        letter-spacing: 0.02em;
+        background: linear-gradient(
+          135deg,
+          #fff 30%,
+          var(--red) 60%,
+          var(--blue-glow) 90%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1.5rem;
+      }
+      .cta-sub {
+        font-family: var(--font-ui);
+        font-size: 1.05rem;
+        color: var(--muted);
+        margin-bottom: 2.5rem;
+      }
+      .btn-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 1.1rem 3rem;
+        font-family: var(--font-ui);
+        font-size: 0.95rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #fff;
+        background: linear-gradient(135deg, var(--red-dark), var(--red));
+        border-radius: 50px;
+        box-shadow: 0 0 40px rgba(232, 17, 45, 0.4);
+        position: relative;
+        overflow: hidden;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+      .btn-cta::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.12);
+        transform: translateX(-100%) skewX(-15deg);
+        transition: transform 0.4s;
+      }
+      .btn-cta:hover::before {
+        transform: translateX(150%) skewX(-15deg);
+      }
+      .btn-cta:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 50px rgba(232, 17, 45, 0.6);
+      }
+
+      /* =============================================
+   FOOTER
+============================================= */
+      footer {
+        background: var(--bg2);
+        border-top: 1px solid var(--border);
+        padding: 2rem;
+        text-align: center;
+      }
+      .footer-logo {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        letter-spacing: 0.1em;
+        background: linear-gradient(135deg, var(--red), var(--blue-glow));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 0.6rem;
+      }
+      .footer-links {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 0.8rem;
+      }
+      .footer-links a {
+        font-family: var(--font-ui);
+        font-size: 0.75rem;
+        color: var(--muted);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        transition: color 0.2s;
+      }
+      .footer-links a:hover {
+        color: var(--red);
+      }
+      .footer-copy {
+        font-family: var(--font-ui);
+        font-size: 0.78rem;
+        color: var(--muted);
+      }
+
+      /* =============================================
+   REDUCED MOTION
+============================================= */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+      @media (max-width: 600px) {
+        .about-stats-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .chars-strip {
+          gap: 0.8rem;
+        }
+        .char-chip {
+          width: 160px;
+        }
+        .features-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- SCROLL PROGRESS -->
+    <div id="scrollProgress" aria-hidden="true"></div>
+
+    <!-- ===== NAV ===== -->
+    <nav id="nav" role="navigation" aria-label="Main navigation">
+      <a href="index.html" class="nav-logo">🕷 Spider-Mans</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html#hero">Home</a></li>
+        <li><a href="index.html#spidermen">Heroes</a></li>
+        <li><a href="index.html#villains">Villains</a></li>
+        <li><a href="index.html#movies">Movies</a></li>
+        <li><a href="index.html#multiverse">Multiverse</a></li>
+        <li><a href="index.html#gallery">Gallery</a></li>
+        <li><a href="index.html#quiz">Quiz</a></li>
+        <li><a href="about.html" class="active">About</a></li>
+      </ul>
+      <div class="nav-right">
+        <button id="themeToggle" aria-label="Toggle light/dark mode"></button>
+        <button class="hamburger" id="hamburger" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section id="about-hero" aria-label="About page hero">
+      <div class="about-hero-bg"></div>
+      <div class="about-web-svg" aria-hidden="true"></div>
+      <div class="about-web-rings" aria-hidden="true">
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+      </div>
+      <div class="about-hero-content">
+        <p class="about-hero-label">Fan-Made Multiverse Database</p>
+        <h1 class="about-hero-title">About the<br />Spider-Verse</h1>
+        <p class="about-hero-sub">
+          An interactive, cinematic fan experience celebrating every Spider-Man
+          across every dimension, timeline, and universe ever put to screen.
+        </p>
+        <div class="about-hero-badges">
+          <span class="hero-badge badge-red">🕷️ Fan Site</span>
+          <span class="hero-badge badge-blue">🌌 Multiverse Archive</span>
+          <span class="hero-badge badge-gold">⭐ Interactive Experience</span>
+        </div>
+      </div>
+      <div class="about-scroll-hint" aria-hidden="true">
+        <span>Scroll</span>
+        <div class="scroll-line-about"></div>
+      </div>
+    </section>
+
+    <!-- ===== ABOUT THIS WEBSITE ===== -->
+    <section id="about-site" aria-label="About this website">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-text reveal-left">
+            <p class="section-eyebrow">The Project</p>
+            <h2 class="section-title">About This <span>Website</span></h2>
+            <div class="divider"></div>
+            <p>
+              This is a <strong>premium fan-made website</strong> celebrating
+              the cinematic Spider-Man multiverse. It was built to be a one-stop
+              interactive database for Spider-Man fans — bringing together
+              characters, films, suits, villains, timelines, and trivia in one
+              visually stunning experience.
+            </p>
+            <p>
+              Every section is designed to feel
+              <strong>cinematic and immersive</strong>, drawing inspiration from
+              Marvel's own promotional style while adding interactive features
+              that go beyond a typical fan page — including a character quiz, a
+              comparison system, a multiverse map, and even a mini web-shooter
+              game.
+            </p>
+            <p>
+              All data, power ratings, quiz results, villain threat levels, and
+              fan rankings are
+              <strong>fan-created for entertainment purposes only</strong>.
+              Nothing here represents official Marvel or Sony canon.
+            </p>
+            <div class="about-stats-grid">
+              <div class="about-stat">
+                <div class="about-stat-num">5</div>
+                <div class="about-stat-lbl">Spider-Heroes</div>
+              </div>
+              <div class="about-stat">
+                <div class="about-stat-num">14</div>
+                <div class="about-stat-lbl">Villains</div>
+              </div>
+              <div class="about-stat">
+                <div class="about-stat-num">11</div>
+                <div class="about-stat-lbl">Movies</div>
+              </div>
+              <div class="about-stat">
+                <div class="about-stat-num">14</div>
+                <div class="about-stat-lbl">Iconic Suits</div>
+              </div>
+              <div class="about-stat">
+                <div class="about-stat-num">7</div>
+                <div class="about-stat-lbl">Universes</div>
+              </div>
+              <div class="about-stat">
+                <div class="about-stat-num">15+</div>
+                <div class="about-stat-lbl">Features</div>
+              </div>
+            </div>
+          </div>
+          <div class="about-visual reveal-right">
+            <div class="about-spider-symbol">
+              <div class="spider-glow-ring"></div>
+              <div class="spider-glow-ring"></div>
+              <div class="spider-glow-ring"></div>
+              <div class="spider-icon-large">🕷️</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SPIDER-MAN LEGACY ===== -->
+    <section id="legacy" aria-label="The Spider-Man legacy">
+      <div class="container">
+        <div
+          class="section-header reveal"
+          style="text-align: center; margin-bottom: 3rem"
+        >
+          <p class="section-eyebrow">Cinematic History</p>
+          <h2 class="section-title">The Spider-Man <span>Legacy</span></h2>
+          <div class="divider" style="margin: 1rem auto 1.5rem"></div>
+          <p
+            style="
+              font-family: var(--font-ui);
+              font-size: 1rem;
+              color: var(--muted);
+              max-width: 560px;
+              margin: 0 auto;
+            "
+          >
+            From Sam Raimi's gothic New York to the multiverse-spanning
+            Spider-Verse, Spider-Man's cinematic journey is unlike any other
+            superhero's.
+          </p>
+        </div>
+        <div class="legacy-timeline">
+          <div class="legacy-item reveal" style="transition-delay: 0.05s">
+            <div class="legacy-era">2002 – 2007</div>
+            <div class="legacy-title">The Raimi Era</div>
+            <p class="legacy-desc">
+              Sam Raimi's trilogy starring Tobey Maguire redefined superhero
+              cinema. With organic web-shooters, gothic New York, and deeply
+              emotional storytelling, this era proved that superhero films could
+              carry genuine heart. Spider-Man 2 (2004) remains widely considered
+              one of the greatest superhero films ever made.
+            </p>
+            <span class="legacy-tag">OG Trilogy · Sony</span>
+          </div>
+          <div class="legacy-item reveal" style="transition-delay: 0.1s">
+            <div class="legacy-era">2012 – 2014</div>
+            <div class="legacy-title">The Amazing Era</div>
+            <p class="legacy-desc">
+              Marc Webb's duology brought a skateboarder's swagger and a
+              scientist's ingenuity to Peter Parker. Andrew Garfield's self-made
+              mechanical web-shooters and chemistry with Emma Stone's Gwen Stacy
+              gave us Marvel's most devastating on-screen romance. The death of
+              Gwen Stacy in The Amazing Spider-Man 2 remains one of the most
+              shocking moments in superhero cinema.
+            </p>
+            <span class="legacy-tag">Amazing Series · Sony Reboot</span>
+          </div>
+          <div class="legacy-item reveal" style="transition-delay: 0.15s">
+            <div class="legacy-era">2016 – Present</div>
+            <div class="legacy-title">The MCU Era</div>
+            <p class="legacy-desc">
+              Tom Holland's Peter Parker arrived via Captain America: Civil War
+              and became the youngest, most technologically advanced Spider-Man
+              on screen. Mentored by Tony Stark, equipped with AI systems and
+              nano-tech suits, this Peter's emotional journey — culminating in
+              No Way Home (2021) where all three Spider-Men unite — is the MCU's
+              most celebrated arc.
+            </p>
+            <span class="legacy-tag">MCU · Marvel Studios · Sony</span>
+          </div>
+          <div class="legacy-item reveal" style="transition-delay: 0.2s">
+            <div class="legacy-era">2018 – Present</div>
+            <div class="legacy-title">The Spider-Verse Era</div>
+            <p class="legacy-desc">
+              Sony's animated Spider-Verse films changed everything. Into the
+              Spider-Verse (2018) won the Academy Award for Best Animated
+              Feature and introduced Miles Morales to a global cinema audience
+              with a revolutionary animation style that looked like a living
+              comic book. Across the Spider-Verse (2023) raised the bar even
+              further, becoming the most visually creative superhero film ever
+              made.
+            </p>
+            <span class="legacy-tag">Animated · Miles Morales · Sony</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MULTIVERSE CONCEPT ===== -->
+    <section id="multiverse-concept" aria-label="The multiverse explained">
+      <div class="container">
+        <div class="reveal">
+          <p class="section-eyebrow">Theory & Canon</p>
+          <h2 class="section-title">The <span>Multiverse</span></h2>
+          <div class="divider"></div>
+        </div>
+        <p class="multiverse-intro reveal">
+          The Marvel multiverse is the concept that infinite parallel universes
+          exist simultaneously, each with its own version of events, heroes, and
+          villains. Every Spider-Man comes from a different Earth — with
+          different powers, different losses, and different legacies. No Way
+          Home (2021) and the Spider-Verse films brought this concept to
+          mainstream cinema in spectacular fashion.
+        </p>
+        <div class="universe-cards">
+          <div class="universe-card reveal" style="transition-delay: 0.05s">
+            <div class="universe-card-earth">EARTH-96283</div>
+            <div class="universe-card-hero">Tobey Maguire · Raimi Trilogy</div>
+            <p class="universe-card-desc">
+              The original cinematic Spider-Man universe. Gothic, emotional, and
+              groundbreaking. Organic web-shooters. The upside-down kiss. Uncle
+              Ben's death and the burden of legacy.
+            </p>
+          </div>
+          <div class="universe-card reveal" style="transition-delay: 0.1s">
+            <div class="universe-card-earth">EARTH-120703</div>
+            <div class="universe-card-hero">
+              Andrew Garfield · Amazing Series
+            </div>
+            <p class="universe-card-desc">
+              A grittier reboot featuring self-built mechanical web-shooters and
+              the most heartbreaking love story in superhero cinema. Defined by
+              the tragedy of Gwen Stacy.
+            </p>
+          </div>
+          <div class="universe-card reveal" style="transition-delay: 0.15s">
+            <div class="universe-card-earth">EARTH-199999</div>
+            <div class="universe-card-hero">Tom Holland · MCU</div>
+            <p class="universe-card-desc">
+              The Marvel Cinematic Universe — Iron Man's world. Peter Parker is
+              a teenager mentored by Tony Stark, armed with world-class
+              technology, and forced to make impossible choices.
+            </p>
+          </div>
+          <div class="universe-card reveal" style="transition-delay: 0.2s">
+            <div class="universe-card-earth">EARTH-1610</div>
+            <div class="universe-card-hero">Miles Morales · Spider-Verse</div>
+            <p class="universe-card-desc">
+              Brooklyn's own Spider-Man. Miles gained unique powers — venom
+              blast and invisibility — and learned that anyone can wear the
+              mask. The heart of the animated multiverse.
+            </p>
+          </div>
+          <div class="universe-card reveal" style="transition-delay: 0.25s">
+            <div class="universe-card-earth">EARTH-65</div>
+            <div class="universe-card-hero">Gwen Stacy · Ghost-Spider</div>
+            <p class="universe-card-desc">
+              An Earth where Gwen Stacy was bitten by the radioactive spider
+              instead of Peter Parker. She fights crime as Ghost-Spider while
+              dimension-hopping across the multiverse.
+            </p>
+          </div>
+          <div class="universe-card reveal" style="transition-delay: 0.3s">
+            <div class="universe-card-earth">EARTH-616</div>
+            <div class="universe-card-hero">Peter Parker · Comics Origin</div>
+            <p class="universe-card-desc">
+              The primary Marvel Comics continuity. The birthplace of everything
+              Spider-Man since Amazing Fantasy #15 (1962). Every cinematic
+              universe traces its lineage here.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CHARACTERS OVERVIEW ===== -->
+    <section id="chars-overview" aria-label="Characters overview">
+      <div class="container">
+        <div class="reveal" style="margin-bottom: 2.5rem">
+          <p class="section-eyebrow">Meet the Wall-Crawlers</p>
+          <h2 class="section-title">The <span>Characters</span></h2>
+          <div class="divider"></div>
+          <p
+            style="
+              font-family: var(--font-ui);
+              font-size: 1rem;
+              color: var(--muted);
+            "
+          >
+            A compact overview of every Spider-Hero in our database. Visit the
+            main site for full profiles.
+          </p>
+        </div>
+        <div
+          class="chars-strip"
+          role="list"
+          aria-label="Character overview cards"
+        >
+          <div
+            class="char-chip reveal"
+            role="listitem"
+            style="transition-delay: 0.05s"
+          >
+            <img
+              src="images/tobey.gif"
+              alt="Spider-Man character animation"
+              class="char-chip-img"
+              loading="lazy"
+            />
+            <div class="char-chip-name">Peter Parker</div>
+            <div class="char-chip-actor">Tobey Maguire</div>
+            <div class="char-chip-earth">Earth-96283</div>
+          </div>
+          <div
+            class="char-chip reveal"
+            role="listitem"
+            style="transition-delay: 0.1s"
+          >
+            <img src="images/andrew.gif" class="char-chip-img" loading="lazy" />
+            <div class="char-chip-name">Peter Parker</div>
+            <div class="char-chip-actor">Andrew Garfield</div>
+            <div class="char-chip-earth">Earth-120703</div>
+          </div>
+          <div
+            class="char-chip reveal"
+            role="listitem"
+            style="transition-delay: 0.15s"
+          >
+            <img src="images/tom.gif" class="char-chip-img" loading="lazy" />
+            <div class="char-chip-name">Peter Parker</div>
+            <div class="char-chip-actor">Tom Holland</div>
+            <div class="char-chip-earth">Earth-199999</div>
+          </div>
+          <div
+            class="char-chip reveal"
+            role="listitem"
+            style="transition-delay: 0.2s"
+          >
+            <img src="images/miles.gif" class="char-chip-img" loading="lazy" />
+            <div class="char-chip-name">Miles Morales</div>
+            <div class="char-chip-actor">Shameik Moore</div>
+            <div class="char-chip-earth">Earth-1610</div>
+          </div>
+          <div
+            class="char-chip reveal"
+            role="listitem"
+            style="transition-delay: 0.25s"
+          >
+            <img src="images/gwen.gif" class="char-chip-img" loading="lazy" />
+            <div class="char-chip-name">Spider-Gwen</div>
+            <div class="char-chip-actor">Hailee Steinfeld</div>
+            <div class="char-chip-earth">Earth-65</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FEATURES ===== -->
+    <section id="features" aria-label="Website features">
+      <div class="container">
+        <div class="reveal" style="margin-bottom: 3rem">
+          <p class="section-eyebrow">What's Inside</p>
+          <h2 class="section-title">Website <span>Features</span></h2>
+          <div class="divider"></div>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card reveal" style="transition-delay: 0.05s">
+            <div class="feature-icon">🕷️</div>
+            <div class="feature-name">Character Database</div>
+            <p class="feature-desc">
+              Detailed profiles for every Spider-Hero with animated power bars,
+              bio, stats, debut year, and film count. Click any card to open a
+              full cinematic profile modal.
+            </p>
+            <span class="feature-tag">5 Heroes · Power Ratings</span>
+          </div>
+          <div class="feature-card reveal" style="transition-delay: 0.1s">
+            <div class="feature-icon">⚡</div>
+            <div class="feature-name">Character Comparison</div>
+            <p class="feature-desc">
+              Select any two Spider-Heroes and compare them across 7 stats:
+              Strength, Speed, Agility, Intelligence, Spider-Sense, Technology,
+              and Experience. Fan scores only.
+            </p>
+            <span class="feature-tag">Fan Comparison · 7 Stats</span>
+          </div>
+          <div class="feature-card reveal" style="transition-delay: 0.15s">
+            <div class="feature-icon">🌌</div>
+            <div class="feature-name">Multiverse Map</div>
+            <p class="feature-desc">
+              An interactive animated SVG map of the Spider-Verse. Click any
+              Earth node to discover its Spider-Hero, villains, films, and
+              universe description.
+            </p>
+            <span class="feature-tag">7 Universes · Interactive</span>
+          </div>
+          <div class="feature-card reveal" style="transition-delay: 0.2s">
+            <div class="feature-icon">🎬</div>
+            <div class="feature-name">Movie Database</div>
+            <p class="feature-desc">
+              All 10 Spider-Man films with filterable categories (Raimi /
+              Amazing / MCU / Spider-Verse), ratings, director info, and
+              detailed modal popups for every film.
+            </p>
+            <span class="feature-tag">10 Films · Filter System</span>
+          </div>
+          <div class="feature-card reveal" style="transition-delay: 0.25s">
+            <div class="feature-icon">🦹</div>
+            <div class="feature-name">Villain Gallery & Battle</div>
+            <p class="feature-desc">
+              8 villain flip-cards revealing powers and threat levels. Plus an
+              interactive villain battle simulator — pit Spider-Man against any
+              villain for a fun fan result.
+            </p>
+            <span class="feature-tag">8 Villains · Battle Simulator</span>
+          </div>
+          <div class="feature-card reveal" style="transition-delay: 0.3s">
+            <div class="feature-icon">🥋</div>
+            <div class="feature-name">Suits & Technology</div>
+            <p class="feature-desc">
+              8 iconic Spider-Man suits from across the multiverse — from the
+              hand-sewn Raimi suit to the nano-tech Iron Spider — each with
+              abilities and cinematic context.
+            </p>
+            <span class="feature-tag">8 Suits · Abilities</span>
+          </div>
+          <div class="feature-card reveal" style="transition-delay: 0.35s">
+            <div class="feature-icon">📸</div>
+            <div class="feature-name">Filterable Gallery</div>
+            <p class="feature-desc">
+              A masonry-layout image gallery with 8 character/category filters,
+              smooth transitions, a fullscreen lightbox, and keyboard navigation
+              (← → Esc).
+            </p>
+            <span class="feature-tag">25 Images · Lightbox · Filters</span>
+          </div>
+          <div class="feature-card reveal" style="transition-delay: 0.4s">
+            <div class="feature-icon">⏳</div>
+            <div class="feature-name">Multiverse Timeline</div>
+            <p class="feature-desc">
+              An animated alternating timeline tracing every cinematic
+              Spider-Man film from 2002 to 2023 with scroll-triggered reveal
+              animations.
+            </p>
+            <span class="feature-tag">10 Events · Scroll Animations</span>
+          </div>
+          <div class="feature-card reveal" style="transition-delay: 0.45s">
+            <div class="feature-icon">❓</div>
+            <div class="feature-name">Spider-Man Quiz</div>
+            <p class="feature-desc">
+              A 7-question personality quiz that determines which Spider-Man you
+              are. Results show a full animated breakdown with character quote
+              and trait bars.
+            </p>
+            <span class="feature-tag">7 Questions · 5 Results</span>
+          </div>
+          <div class="feature-card reveal" style="transition-delay: 0.5s">
+            <div class="feature-icon">🏆</div>
+            <div class="feature-name">Fan Rankings</div>
+            <p class="feature-desc">
+              Vote for your favorite Spider-Hero. Rankings update in real time
+              and are saved locally in your browser so your votes persist
+              between visits.
+            </p>
+            <span class="feature-tag">Live Voting · localStorage</span>
+          </div>
+          <div class="feature-card reveal" style="transition-delay: 0.55s">
+            <div class="feature-icon">🎮</div>
+            <div class="feature-name">Web Shooter Game</div>
+            <p class="feature-desc">
+              A 30-second click-based mini game where you shoot web targets for
+              points. Combos multiply your score and difficulty increases as
+              time runs out.
+            </p>
+            <span class="feature-tag">Mini Game · Combo System</span>
+          </div>
+          <div class="feature-card reveal" style="transition-delay: 0.6s">
+            <div class="feature-icon">🔎</div>
+            <div class="feature-name">Global Search</div>
+            <p class="feature-desc">
+              Press
+              <kbd
+                style="
+                  background: var(--glass);
+                  border: 1px solid var(--border);
+                  padding: 0.1rem 0.4rem;
+                  border-radius: 4px;
+                  font-size: 0.8em;
+                "
+                >/</kbd
+              >
+              anywhere to open a global search across heroes, villains, movies,
+              and sections.
+            </p>
+            <span class="feature-tag">Keyboard · Instant Results</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TECHNOLOGY ===== -->
+    <section id="tech-section" aria-label="Technology used">
+      <div class="container">
+        <div class="reveal" style="margin-bottom: 3rem">
+          <p class="section-eyebrow">Built With</p>
+          <h2 class="section-title">Technology <span>Stack</span></h2>
+          <div class="divider"></div>
+          <p
+            style="
+              font-family: var(--font-ui);
+              font-size: 1rem;
+              color: var(--muted);
+              max-width: 500px;
+            "
+          >
+            This entire website was built with only HTML, CSS, and vanilla
+            JavaScript — no frameworks, no dependencies.
+          </p>
+        </div>
+        <div class="tech-grid">
+          <div class="tech-card reveal" style="transition-delay: 0.05s">
+            <div class="tech-icon">
+              <img src="images/html5.png" alt="HTML5" />
+            </div>
+            <div class="tech-name">HTML5</div>
+            <p class="tech-desc">
+              Semantic markup, ARIA roles, and accessible structure throughout.
+            </p>
+          </div>
+          <div class="tech-card reveal" style="transition-delay: 0.1s">
+            <div class="tech-icon">
+              <img src="images/css3.png" alt="CSS3" />
+            </div>
+            <div class="tech-name">CSS3</div>
+            <p class="tech-desc">
+              Custom properties, glassmorphism, keyframe animations, grid, and
+              responsive layouts.
+            </p>
+          </div>
+          <div class="tech-card reveal" style="transition-delay: 0.15s">
+            <div class="tech-icon">
+              <img src="images/javascript.png" alt="JavaScript" />
+            </div>
+            <div class="tech-name">JavaScript</div>
+            <p class="tech-desc">
+              Vanilla ES6+ — no jQuery, no frameworks. Data-driven rendering,
+              modals, and all interactions.
+            </p>
+          </div>
+          <div class="tech-card reveal" style="transition-delay: 0.2s">
+            <div class="tech-icon">
+              <img src="images/canvas.png" alt="Canvas API" />
+            </div>
+            <div class="tech-name">Canvas API</div>
+            <p class="tech-desc">
+              Real-time animated particle web on the hero section using
+              requestAnimationFrame.
+            </p>
+          </div>
+          <div class="tech-card reveal" style="transition-delay: 0.25s">
+            <div class="tech-icon">
+              <img src="images/localstorage.png" alt="localStorage" />
+            </div>
+            <div class="tech-name">localStorage</div>
+            <p class="tech-desc">
+              Fan votes, theme preference, and session state persisted across
+              browser visits.
+            </p>
+          </div>
+          <div class="tech-card reveal" style="transition-delay: 0.3s">
+            <div class="tech-icon">
+              <img src="images/webaudio.png" alt="Web Audio API" />
+            </div>
+            <div class="tech-name">Web Audio API</div>
+            <p class="tech-desc">
+              Procedurally generated sound effects — clicks, thwips, battle
+              sounds, and win fanfares.
+            </p>
+          </div>
+          <div class="tech-card reveal" style="transition-delay: 0.35s">
+            <div class="tech-icon">
+              <img src="images/intersection.png" alt="Intersection Observer" />
+            </div>
+            <div class="tech-name">Intersection Observer</div>
+            <p class="tech-desc">
+              Scroll-triggered reveal animations for all cards, timeline items,
+              and section headers.
+            </p>
+          </div>
+          <div class="tech-card reveal" style="transition-delay: 0.4s">
+            <div class="tech-icon">
+              <img src="images/responsive.png" alt="Responsive Design" />
+            </div>
+            <div class="tech-name">Responsive Design</div>
+            <p class="tech-desc">
+              Mobile-first CSS with breakpoints at 480px, 600px, 768px, 900px,
+              and 1280px.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CREATOR / PROJECT ===== -->
+    <section id="creator" aria-label="Creator and project information">
+      <div class="container">
+        <div class="reveal" style="margin-bottom: 3rem">
+          <p class="section-eyebrow">The Project</p>
+          <h2 class="section-title">Creator & <span>Disclaimer</span></h2>
+          <div class="divider"></div>
+        </div>
+        <div class="creator-wrap">
+          <div class="creator-card reveal-left">
+            <div class="creator-avatar">🕷️</div>
+            <div class="creator-name">Spider-Mans</div>
+            <div class="creator-role">Fan Project · 2024</div>
+            <p class="creator-bio">
+              This website was created as a passion project celebrating
+              Spider-Man's incredible cinematic journey. Built entirely with
+              HTML, CSS, and vanilla JavaScript as a final-year CS project
+              demonstrating interactive web development, animation systems, and
+              data-driven UI design.
+            </p>
+            <div
+              style="
+                margin-top: 1.2rem;
+                display: flex;
+                gap: 0.5rem;
+                flex-wrap: wrap;
+                justify-content: center;
+              "
+            >
+              <span
+                style="
+                  font-family: var(--font-ui);
+                  font-size: 0.65rem;
+                  font-weight: 700;
+                  letter-spacing: 0.1em;
+                  text-transform: uppercase;
+                  padding: 0.22rem 0.65rem;
+                  border-radius: 20px;
+                  background: rgba(232, 17, 45, 0.12);
+                  border: 1px solid rgba(232, 17, 45, 0.25);
+                  color: var(--red);
+                "
+                >CS Final Year Project</span
+              >
+              <span
+                style="
+                  font-family: var(--font-ui);
+                  font-size: 0.65rem;
+                  font-weight: 700;
+                  letter-spacing: 0.1em;
+                  text-transform: uppercase;
+                  padding: 0.22rem 0.65rem;
+                  border-radius: 20px;
+                  background: rgba(34, 68, 255, 0.12);
+                  border: 1px solid rgba(34, 68, 255, 0.25);
+                  color: var(--blue-glow);
+                "
+                >Web Development</span
+              >
+            </div>
+          </div>
+          <div class="disclaimer-card reveal-right">
+            <div class="disclaimer-title">⚠️ Fan Content Disclaimer</div>
+            <p class="disclaimer-text">
+              This is an <strong>unofficial fan-made website</strong>. It is not
+              affiliated with, endorsed by, or connected to Marvel
+              Entertainment, Sony Pictures, or any related entities.
+            </p>
+            <p class="disclaimer-text">
+              All Spider-Man characters, names, imagery, and related marks are
+              the property of
+              <strong>Marvel Entertainment / Sony Pictures</strong>. This site
+              uses them purely for educational and fan appreciation purposes.
+            </p>
+            <p class="disclaimer-text">
+              Power ratings, quiz results, battle scores, threat levels, and fan
+              rankings are <strong>entirely fan-created</strong> for
+              entertainment only and do not represent official Marvel statistics
+              or canon.
+            </p>
+            <div class="disclaimer-tags">
+              <span class="disclaimer-tag">Fan Site</span>
+              <span class="disclaimer-tag">Non-Commercial</span>
+              <span class="disclaimer-tag">Educational</span>
+              <span class="disclaimer-tag">Not Affiliated with Marvel</span>
+              <span class="disclaimer-tag">Not Affiliated with Sony</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section id="cta" aria-label="Return to main site">
+      <div class="cta-bg" aria-hidden="true"></div>
+      <div class="container reveal">
+        <h2 class="cta-title">Enter the<br />Multiverse</h2>
+        <p class="cta-sub">
+          Ready to explore every Spider-Hero, villain, film, and dimension?
+        </p>
+        <a
+          href="index.html"
+          class="btn-cta"
+          aria-label="Back to the Spider-Mans multiverse"
+        >
+          🕷️ Back to the Multiverse
+        </a>
+      </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+      <div class="footer-logo">🕷 Friendly Neighborhood Spider-Mans</div>
+      <div class="footer-links">
+        <a href="index.html#hero">Home</a>
+        <a href="index.html#spidermen">Heroes</a>
+        <a href="index.html#villains">Villains</a>
+        <a href="index.html#movies">Movies</a>
+        <a href="index.html#quiz">Quiz</a>
+        <a href="about.html">About</a>
+      </div>
+      <p class="footer-copy">
+        © 2026 Spider-Mans Multiverse Fan Site · Not affiliated with Marvel or
+        Sony · Made with ❤️ &amp; web-fluid
+      </p>
+    </footer>
+
+    <script>
+      /* =============================================
+   NAV SCROLL
+============================================= */
+      window.addEventListener("scroll", () => {
+        document
+          .getElementById("nav")
+          .classList.toggle("scrolled", window.scrollY > 50);
+        const total = document.body.scrollHeight - window.innerHeight;
+        document.getElementById("scrollProgress").style.width =
+          (total > 0 ? (window.scrollY / total) * 100 : 0) + "%";
+      });
+
+      /* =============================================
+   HAMBURGER
+============================================= */
+      document.getElementById("hamburger").addEventListener("click", () => {
+        document.getElementById("navLinks").classList.toggle("open");
+      });
+      document.querySelectorAll(".nav-links a").forEach((a) => {
+        a.addEventListener("click", () =>
+          document.getElementById("navLinks").classList.remove("open"),
+        );
+      });
+
+      /* =============================================
+   THEME TOGGLE (synced with main site)
+============================================= */
+      const savedTheme = localStorage.getItem("spiderTheme");
+      if (savedTheme === "light") document.body.classList.add("light-mode");
+      document.getElementById("themeToggle").addEventListener("click", () => {
+        document.body.classList.toggle("light-mode");
+        localStorage.setItem(
+          "spiderTheme",
+          document.body.classList.contains("light-mode") ? "light" : "dark",
+        );
+      });
+
+      /* =============================================
+   REVEAL ON SCROLL
+============================================= */
+      const revealObs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) e.target.classList.add("visible");
+          });
+        },
+        { threshold: 0.08 },
+      );
+      document
+        .querySelectorAll(".reveal,.reveal-left,.reveal-right")
+        .forEach((el) => revealObs.observe(el));
+
+      /* =============================================
+   CTA BUTTON SHEEN
+============================================= */
+      document
+        .querySelector(".btn-cta")
+        ?.addEventListener("mouseenter", function () {
+          this.style.transform = "translateY(-4px)";
+        });
+      document
+        .querySelector(".btn-cta")
+        ?.addEventListener("mouseleave", function () {
+          this.style.transform = "";
+        });
+    </script>
+  </body>
+</html>
